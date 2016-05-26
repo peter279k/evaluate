@@ -9,7 +9,6 @@
 	$web_json = json_decode($web_page["FILE"], true);
 	$web_json = $web_json["query"]["results"]["body"]["form"][1]["center"]["table"][2]["tbody"][1]["tr"];
 	$web_json_count = count($web_json);
-	
 	$name_j = 0;
 	for($count=0;$count<$web_json_count;$count++)
 	{
@@ -21,8 +20,8 @@
 		$content_k = 0;
 		for($optgroup_i=0;$optgroup_i<$optgroup_len;$optgroup_i++)
 		{
-			$option = $optgroup[$optgroup_i]["option"];
-			if($option[0]["content"] !== null)
+			$option = @$optgroup[$optgroup_i]["option"];
+			if(@$option[0]["content"] !== null)
 			{
 				$option_len = count($option);
 				for($option_i=0;$option_i<$option_len;$option_i++)
@@ -43,6 +42,6 @@
 		$product[$name_j]["products"] = $products;
 		$name_j += 1;
 	}
-
+	
 	echo json_encode($product, JSON_PRETTY_PRINT);
 ?>
