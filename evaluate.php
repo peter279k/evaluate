@@ -21,11 +21,14 @@
 		for($optgroup_i=0;$optgroup_i<$optgroup_len;$optgroup_i++)
 		{
 			$option = @$optgroup[$optgroup_i]["option"];
+			$option_label = @$optgroup[$optgroup_i]["label"];
+			
 			if(@$option[0]["content"] !== null)
 			{
 				$option_len = count($option);
 				for($option_i=0;$option_i<$option_len;$option_i++)
 				{
+					$products[$content_k]["label"] = $option_label;
 					$products[$content_k]["content"] = $option[$option_i]["content"];
 					$content_k += 1;
 				}
@@ -43,5 +46,5 @@
 		$name_j += 1;
 	}
 	
-	echo json_encode($product, JSON_PRETTY_PRINT);
+	file_put_contents("quotation.json", json_encode($product));
 ?>
