@@ -1,7 +1,7 @@
 <?php
 	require 'libs/LIB_http.php';
 	ob_start("ob_gzhandler");
-	header("Content-Type: application/json; charset=UTF-8");
+	//header("Content-Type: application/json; charset=UTF-8");
 	
 	//coolpc原價屋
 	$product = array();
@@ -18,17 +18,22 @@
 		$optgroup = $temp[2]["select"]["optgroup"];
 		$optgroup_len = count($optgroup);
 		$content_k = 0;
-		for($optgroup_i=0;$optgroup_i<$optgroup_len;$optgroup_i++)
-		{
-			$option = @$optgroup[$optgroup_i]["option"];
-			$option_label = @$optgroup[$optgroup_i]["label"];
+		for($optgroup_i=0;$optgroup_i<$optgroup_len;$optgroup_i++) {
+			if(empty($optgroup[$optgroup_i]["option"])) {
+				var_dump($optgroup[$optgroup_i]);
+				continue;
+			}
+			$option = $optgroup[$optgroup_i]["option"];
+			$option_label = $optgroup[$optgroup_i]["label"];
 			
-			if(@$option[0]["content"] !== null)
+			//var_dump($option);
+			//var_dump($option_label);
+			
+			if(!empty($option[0]["content"]))
 			{
 				$option_len = count($option);
 				for($option_i=0;$option_i<$option_len;$option_i++)
 				{
-					$products[$content_k]["label"] = $option_label;
 					$products[$content_k]["content"] = $option[$option_i]["content"];
 					$content_k += 1;
 				}
@@ -41,6 +46,8 @@
 					$content_k += 1;
 				}
 			}
+			
+			$products[$content_k]["label"] = $option_label;
 		}
 		$product[$name_j]["products"] = $products;
 		$name_j += 1;
